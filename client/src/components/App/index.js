@@ -5,6 +5,7 @@ import { observer, inject, Provider } from 'mobx-react';
 import ChatList from '../ChatList';
 import Profile from '../Profile';
 import Chat from '../Chat';
+import MessageNotification from '../MessageNotification';
 import ServiceMessage from '../Chat/ChatHistory/ServiceMessage';
 import styles from './index.css';
 import ChatItem from '../ChatList/ChatItem/index';
@@ -35,7 +36,8 @@ export default class App extends Component {
             chatCreateState,
             chatListState,
             reactionSelectorState,
-            alarmState
+            alarmState,
+            messageNotificationState
         } = state;
 
         const chatList = chatListState.chatsToDisplay.map(chat => (
@@ -57,8 +59,10 @@ export default class App extends Component {
                 reactionSelectorState={reactionSelectorState}
                 alarmState={alarmState}
                 state={state}
-                dataStore={dataStore}>
+                dataStore={dataStore}
+                messageNotificationState={messageNotificationState}>
                 <div className={styles.Wrapper}>
+                    <MessageNotification/>
                     <div className={styles.LoadingScreen}
                         style={{ display: loaderState ? 'flex' : 'none' }}>
                         <div className={styles.LoaderWrapper}>

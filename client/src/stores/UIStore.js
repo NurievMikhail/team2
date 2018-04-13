@@ -6,6 +6,7 @@ import ReactionSelectorState from './states/ReactionSelectorState';
 import ChatCreateState from './states/ChatCreateState';
 import AlarmState from './states/AlarmState';
 import ChatsState from './states/ChatsState';
+import MessageNotificationState from './states/MessageNotificationState';
 
 export default class UIStore {
 
@@ -16,6 +17,8 @@ export default class UIStore {
         this.chatCreateState = new ChatCreateState(this.dataStore);
         this.reactionSelectorState = new ReactionSelectorState(this.dataStore);
         this.alarmState = new AlarmState(this.dataStore);
+        this.messageNotificationState =
+            new MessageNotificationState(this.dataStore, this.chatListState);
 
         autorun(() => {
             if (dataStore.loadingState === States.LOADED) {

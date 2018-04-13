@@ -22,6 +22,8 @@ export default class DataStore {
 
     @observable chatHistories = new Map();
 
+    @observable lastReceivedMessage = {};
+
     @action setChatHistory = (chatId, messages, totalCount) => {
         const chatHistory = this.chatHistories.get(chatId);
         if (chatHistory) {
@@ -88,6 +90,7 @@ export default class DataStore {
     @action addMessage = (message) => {
         this.liftChat(message);
         this.chatHistories.get(message.chatId).messages.push(message);
+        this.lastReceivedMessage = message;
     };
 
     @action addContact = (userId) => {
