@@ -2,5 +2,5 @@
 
 module.exports = {
     login: String(),
-    id: String()
+    userId: String()
 };
