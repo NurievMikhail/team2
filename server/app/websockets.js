@@ -1,5 +1,6 @@
 'use strict';
 
+const mongoose = require('mongoose');
 const PassportMemStoreSessionGetter = require('./classes/PassportMemStoreSessionGetter');
 const olesya = require('./tools/olesya');
 const WebSocketServer = require('./classes/WebSocketServer');
@@ -89,24 +90,23 @@ module.exports = async function (app, sessionStore) {
                 chat.users.forEach(userId => {
                     wsServer.emitByUID(userId, 'NewMessage', message);
                 });
+
+                if (chatId.toString() ===
+                    mongoose.Types.ObjectId(`olesya${uid.toString().slice(0, 6)}`).toString()) {
+                    const answer = await olesya.ask(text);
+                    const olesyaMessage =
+                        await sendMessage(mongoose.Types.ObjectId('OlesyaUserId'), chatId, answer);
+
+                    wsServer.emitByUID(uid, 'SendMessageResult', {
+                        success: true,
+                        value: olesyaMessage
+                    });
+                    chat.users.forEach(userId => {
+                        wsServer.emitByUID(userId, 'NewMessage', olesyaMessage);
+                    });
+                }
             } catch (error) {
                 wsServer.emitByUID(uid, 'SendMessageResult', {
-                    success: false,
-                    error: error.message || error.body
-                });
-            }
-        }));
-        socket.on('AskOlesya', pushAction.bind(null, uid, async (text) => {
-            try {
-                const answer = await olesya.ask(text);
-                const olesyaMessage = new MessageModel({ chat: 'olesya', body: answer });
-
-                socket.emit('AskOlesyaResult', {
-                    success: true,
-                    value: olesyaMessage
-                });
-            } catch (error) {
-                socket.emit('AskOlesyaResult', {
                     success: false,
                     error: error.message || error.body
                 });

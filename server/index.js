@@ -14,6 +14,7 @@ const { createServer } = require('http');
 
 const { setSerializers, strategy } = require('./app/tools/auth');
 const routes = require('./app/routes');
+const createOlesya = require('./app/tools/createOlesya');
 
 const app = express();
 const httpServer = createServer(app);
@@ -33,6 +34,7 @@ function connect() {
 }
 
 connect();
+createOlesya();
 
 const corsOptions = {
     origin: 'http://localhost:8080',
