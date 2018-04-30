@@ -16,4 +16,8 @@ chatSchema.methods.addUser = function (personId) {
     return this.save();
 };
 
+chatSchema.methods.containsUser = function (userName) {
+    return this.users.indexOf(mongoose.Types.ObjectId(userName)) !== -1;
+};
+
 module.exports = mongoose.model('Chat', chatSchema);

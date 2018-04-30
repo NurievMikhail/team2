@@ -91,15 +91,11 @@ module.exports = async function (app, sessionStore) {
                     wsServer.emitByUID(userId, 'NewMessage', message);
                 });
 
-                if (chat.users.indexOf(mongoose.Types.ObjectId('OlesyaUserId')) !== -1) {
+                if (chat.containsUser('OlesyaUserId')) {
                     const answer = await olesya.ask(text);
                     const olesyaMessage =
                         await sendMessage(mongoose.Types.ObjectId('OlesyaUserId'), chatId, answer);
 
-                    wsServer.emitByUID(uid, 'SendMessageResult', {
-                        success: true,
-                        value: olesyaMessage
-                    });
                     chat.users.forEach(userId => {
                         wsServer.emitByUID(userId, 'NewMessage', olesyaMessage);
                     });
