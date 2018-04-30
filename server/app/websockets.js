@@ -91,8 +91,7 @@ module.exports = async function (app, sessionStore) {
                     wsServer.emitByUID(userId, 'NewMessage', message);
                 });
 
-                if (chatId.toString() ===
-                    mongoose.Types.ObjectId(`olesya${uid.toString().slice(0, 6)}`).toString()) {
+                if (chat.users.indexOf(mongoose.Types.ObjectId('OlesyaUserId')) !== -1) {
                     const answer = await olesya.ask(text);
                     const olesyaMessage =
                         await sendMessage(mongoose.Types.ObjectId('OlesyaUserId'), chatId, answer);
