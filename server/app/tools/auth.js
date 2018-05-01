@@ -13,7 +13,6 @@ async function createUser(profile) {
         githubId: profile.id,
         contacts: [],
         chats: [],
-        date: Date.now(),
         avatar: new GithubAvatar(profile.username, 200).toImgSrc()
     });
 
