@@ -91,15 +91,7 @@ module.exports = async function (app, sessionStore) {
                     wsServer.emitByUID(userId, 'NewMessage', message);
                 });
 
-                if (chat.containsUser('OlesyaUserId')) {
-                    const answer = await olesya.ask(text);
-                    const olesyaMessage =
-                        await sendMessage(mongoose.Types.ObjectId('OlesyaUserId'), chatId, answer);
-
-                    chat.users.forEach(userId => {
-                        wsServer.emitByUID(userId, 'NewMessage', olesyaMessage);
-                    });
-                }
+                await emmitOlesyaMessage(chat, text);
             } catch (error) {
                 wsServer.emitByUID(uid, 'SendMessageResult', {
                     success: false,
@@ -113,6 +105,17 @@ module.exports = async function (app, sessionStore) {
             }
         });
     });
+
+    async function emmitOlesyaMessage(chat, text) {
+        if (chat.containsUser('OlesyaUserId')) {
+            const answer = await olesya.ask(text);
+            const olesyaMessage =
+                await sendMessage(mongoose.Types.ObjectId('OlesyaUserId'), chat._id, answer);
+            chat.users.forEach(userId => {
+                wsServer.emitByUID(userId, 'NewMessage', olesyaMessage);
+            });
+        }
+    }
 };
 
 function pushAction(uid, action, data) {
