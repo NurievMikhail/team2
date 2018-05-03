@@ -70,9 +70,9 @@ module.exports.strategy = new passportGithub.Strategy(
         } catch (error) {
             console.info(error.message);
 
-            const user = createUser(profile);
+            const user = await createUser(profile);
 
-            const olesyaChat = createChatWithOlesya(user);
+            const olesyaChat = await createChatWithOlesya(user);
 
             const olesya = await User.findById('OlesyaUserId').exec();
             await olesya.addContact(user._id);
