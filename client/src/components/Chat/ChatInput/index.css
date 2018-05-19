@@ -15,7 +15,7 @@
 .InputNight
 {
     padding: 15.5px 10px 16.5px;
-    width: calc(100% - 3 * (2% + 18px));
+    width: calc(100% - 4 * (2% + 18px));
 
     font-size: 14px;
 
@@ -37,7 +37,10 @@
     outline: none;
 }
 
-.Button {
+
+.Button,
+.MicroButtonOff,
+.MicroButtonOn {
     display: flex;
 
     margin: auto 16px auto 0;
@@ -50,6 +53,16 @@
     outline: none;
     border: 0;
     width: 2%;
+}
+
+.MicroButtonOn
+{
+    color: #03a9f4;
+}
+
+.MicroButtonOff
+{
+    color: #474747;
 }
 
 .InputNight

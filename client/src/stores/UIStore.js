@@ -46,7 +46,7 @@ export default class UIStore {
 
     @action toggleNightMode = () => {
         this.mainView.isNightTheme = !this.mainView.isNightTheme;
-        localStorage.setItem('isNightTheme', this.mainView.isNightTheme);
+        localStorage.setItem('isNightTheme', this.mainView.isNightTheme = false);
     }
 
     @computed
