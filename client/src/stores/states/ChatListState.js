@@ -79,18 +79,6 @@ export default class ChatListState {
     }
 
     @computed
-    get chatsToNotification() {
-        return this.dataStore.chatList.filter(chat => {
-            return chat.name.toLowerCase()
-                .indexOf(this.searchInput.toLowerCase()) !== -1;
-        }).map(chat => {
-            chat.lastMessage = this.dataStore.getLastChatMessage(chat);
-
-            return chat;
-        });
-    }
-
-    @computed
     get currentPath() {
         if (this.currentChat.name) {
             return `#/im/${this.currentChat.name}`;
